@@ -4,6 +4,30 @@
     <div class="container my-4">
         <div class="row align-items-center">
         <h2 class="mt-4 text-center fw-bold">Daftar Anggota Simpan Pinjam Buku</h2>
+        <!-- Form Search  -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <form action="{{route('anggota.index')}}" method="GET">
+                    <div class="input-group">
+                        <input type="text" name="search" 
+                        class="form-control border-dark" 
+                        placeholder="Cari nama anggota..."
+                        value="{{request('search') }}">
+                    <button class="btn btn-outline-dark" type="submit">Cari</button>
+                    <!-- Tombol Reset muncul cuma pas lagi nyari -->
+                    @if(request('search'))
+                        <a href="{{ route('anggota.index')}}" class="btn btn-outline-danger">Reset</a>
+                    @endif
+                    </div>
+                </form>
+                <!-- Pesan Indikator Pencarian -->
+                 @if(request('search'))
+                    <small class="text-muted mt-1 d-block">
+                        Menampilkan hasil pencarian untuk: <strong>"{{request('search')}}"</strong>
+                    </small>
+                 @endif
+            </div>
+        </div> 
             <table class="table-striped-columns text-center table table-bordered">
                 <thead class="table-dark">
                     <tr>

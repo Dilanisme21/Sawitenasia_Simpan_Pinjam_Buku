@@ -8,10 +8,21 @@ use App\Models\Anggota;
 class AnggotaController extends Controller
 {
     //Menampilkan Data(Read)
-    public function index(){
-        $anggotas = Anggota::paginate(5);
+    public function index(Request $request){
+        // 1. Mulai Query
+        $query = Anggota::query();
+
+        // 2. Jika ada kata kunci pencarian
+        if ($request->has('search') && $request->search != ''){
+            $query->where('nama_anggota', 'LIKE', "%" . $request->search . '%');
+        }
+
+        // 3. Pakai paginate dan tambah appends agar kata kunci terbatas
+        $anggotas = $query->paginate(5)->appends($request->all());
+
         return view('anggota.index', compact('anggotas'));
     }
+
     // Menampilkan Form Tambah Data
     public function tambah_data(){
         return view('anggota.tambah_anggota');
