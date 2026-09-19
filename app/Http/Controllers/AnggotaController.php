@@ -40,6 +40,7 @@ class AnggotaController extends Controller
         Anggota::create($data);
         return redirect()->route("anggota.index")->with('success', 'Data Anggota Berhasil Ditambah');
     }
+    
     // Mencari Data yang Mau Diubah(Update)
     public function ubah_anggota($id){
         $anggota = Anggota::findOrFail($id);

@@ -48,7 +48,7 @@
                 </div> 
                 <div class="row align-items-center mb-2">
                     <div class="col-4">
-                        <label for="no_anggota">No. Telepon </label>
+                        <label for="no_telepon">No. Telepon </label>
                     </div>
                     <div class="col-8 border-dark">
                         <input type="tel" name="no_telepon" id="no_telepon" class="form-control mb-2" required>
