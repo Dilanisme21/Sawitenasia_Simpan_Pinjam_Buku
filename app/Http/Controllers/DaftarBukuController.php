@@ -19,15 +19,41 @@ class DaftarBukuController extends Controller
     }
     // Menyimpan Data Baru(Create)
     public function simpan_buku(Request $request){
-        $data = $request->validate([
-            'no_registrasi_buku' => 'required',
+        // 1. Validasi input(no_registrasi_buku dihilangkan karena dibikin otomotasi)
+        $request->validate([
+            // 'no_registrasi_buku' => 'required',
             'judul_buku' => 'required',
             'pengarang' => 'required',
             'penerbit' => 'required',
-            'tahun_terbit' => 'required',
+            'genre' => 'required',
+            'tahun_terbit' => 'required|numeric',
             'jumlah_buku' => 'required|integer',
         ]);
-        Daftar_Buku::create($data);
+
+        // 2. Ambil nomor Urut dari ID data buku terakhir
+        $lastBuku = Daftar_Buku::latest()->first(); //Sesuaikan modulnya
+        $nextNumber = $lastBuku ? $lastBuku->id + 1:1;
+        $nomorUrut = str_pad($nextNumber, 3, '0', STR_PAD_LEFT); //Format: 001, 002, dll
+        
+        // 3. Ambi huruf depannya dan Tahun
+        $hurufJudul = strtoupper(substr($request->judul_buku, 0, 2));
+        $hurufPenerbit = strtoupper((substr($request->penerbit, 0, 2)));
+        $hurufGenre = strtoupper(substr($request->genre, 0, 2));
+        $tahunTerbit = substr($request->tahun_terbit, -2);
+
+        // 4. Gabungkan format: 01/001/Je/Pe/Ge
+        $no_registrasi_buku = "{$tahunTerbit}/{$nomorUrut}/{$hurufJudul}/{$hurufPenerbit}/{$hurufGenre}";
+
+        Daftar_Buku::create([
+            'no_registrasi_buku' => $no_registrasi_buku,
+            'judul_buku' => $request->judul_buku,
+            'pengarang' => $request->pengarang,
+            'penerbit' => $request->penerbit,
+            'genre' => $request->genre,
+            'tahun_terbit' => $request->tahun_terbit,
+            'jumlah_buku' => $request->jumlah_buku,
+        ]);
+        // Daftar_Buku::create($data);
         return redirect()->route('simpan_pinjam.index');
     }
 

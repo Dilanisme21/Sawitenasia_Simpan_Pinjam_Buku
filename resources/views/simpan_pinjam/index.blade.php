@@ -12,6 +12,7 @@
                         <th scope="col" style="width: 15%;">Judul Buku</th>
                         <th scope="col" style="width: 15%;">Pengarang</th>
                         <th scope="col" style="width: 10%;">Penerbit</th>
+                        <th scope="col" style="width: 8%;">Genre</th>
                         <th scope="col" style="width: 5%;">Tahun</th>
                         <th scope="col" style="width: 7%;">Jumlah</th>
                         <th scope="col" style="width: 13%;">Action</th>
@@ -25,23 +26,52 @@
                         <td class="text-start fw-semibold">{{ $daftar_buku->judul_buku}}</td>
                         <td>{{$daftar_buku->pengarang}}</td>
                         <td>{{$daftar_buku->penerbit}}</td>
+                        <td>{{$daftar_buku->genre}}</td>
                         <td>{{$daftar_buku->tahun_terbit}}</td>
                         <td>{{$daftar_buku->jumlah_buku}}</td>
                         <td class="text-center">
                             <div class="d-flex justify-content-center gap-1">
                             <a href="{{ route('simpan_pinjam.edit_buku', $daftar_buku->id) }}" class="btn btn-secondary btn-sm">Edit</a>
-                            <form action="{{ route('simpan_pinjam.hapus_buku', $daftar_buku->id) }}" method="POST">
+                            <!-- <form action="{{ route('simpan_pinjam.hapus_buku', $daftar_buku->id) }}" method="POST">
                                 @csrf 
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
                             </form> 
-                            </div>
-  
+                            </div> -->
+                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{$daftar_buku->id}}">
+                                Delete
+                            </button>
                         </td> 
                     </tr>
+
+                    <div class="modal fade" id="deleteModal{{$daftar_buku->id}}" tabindex="-1" aria-labelledby="deleteModalLabel{{$daftar_buku->id}}" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header bg-danger text-white">
+                                    <h5 class="modal-title" id="deleteModalLabel{{$daftar_buku->id}}">Konfirmasi Hapus Data</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="close"></button>
+                                </div>
+                                <div class="modal-body text-start">
+                                    Apakah kamu yakin menghapus data buku <strong>{{$daftar_buku->nama_buku}}</strong> dengan nomor buku {{$daftar_buku->no_registrasi_buku}} ??
+                                    <small class="text-muted">Data yang dihapus tidak dapat dikembalikan kembali</small>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                    <form action="{{ route('simpan_pinjam.hapus_buku', $daftar_buku->id) }}" method="POST" class="d-inline">
+                                        @csrf 
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">Ya, Hapus Data</button>
+                                    </form>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     @endforeach
                 </tbody>
             </table>
+            <div class="d-flex justify-content-center mt-3">
+                {{ $daftar_bukus->links() }}
+            </div>
         </div>
         <div class="d-flex justify-content-center mt-3">
             <div class="btn-group" role="group">

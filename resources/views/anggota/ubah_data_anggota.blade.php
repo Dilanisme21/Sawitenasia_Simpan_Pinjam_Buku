@@ -14,7 +14,7 @@
                     </div>
                     <div class="col-8 border-dark">
                         <input type="text" name="no_anggota" id="no_anggota" class="form-control mb-2" 
-                            value="{{ old('no_anggota', $anggota->no_anggota) }}" required>
+                            value="{{ old('no_anggota', $anggota->no_anggota) }}" readonly>
                     </div>
                 </div>
                 <div class="row align-items-center mb-2">

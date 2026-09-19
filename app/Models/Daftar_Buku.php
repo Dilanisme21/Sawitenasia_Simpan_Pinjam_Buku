@@ -12,6 +12,7 @@ class Daftar_Buku extends Model
         'judul_buku',
         'pengarang',
         'penerbit',
+        'genre',
         'tahun_terbit',
         'jumlah_buku'
     ];
