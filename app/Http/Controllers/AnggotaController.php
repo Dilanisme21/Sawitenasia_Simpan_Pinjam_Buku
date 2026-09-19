@@ -24,23 +24,46 @@ class AnggotaController extends Controller
     }
 
     // Menampilkan Form Tambah Data
-    public function tambah_data(){
+    public function tambah_data(Request $request){
         return view('anggota.tambah_anggota');
     }
+    
     // Menambah Data(Create)
     public function tambah_anggota(Request $request){
-        $data = $request->validate([
-            'no_anggota' => 'required',
+        $request->validate([
+            // 'no_anggota' => 'required',
             'nama_anggota' => 'required',
             'jenis_kelamin' => 'required',
             'alamat_rumah' => 'required',
             'no_telepon' => 'required'
         ]);
 
-        Anggota::create($data);
+        // 1. Tentukan Kode Depan(01/02) $ Kode Belakang (L/P)
+        $isMale = in_array($request->jenis_kelamin,['Pria', 'Laki-Laki', 'L']);
+        $kodeDepan = $isMale ? '01':'02';
+        $kodeBelakang = $isMale ? 'L' : 'P';
+
+        // 2. Ambil nomor urut increment dari ID Terakhir
+        $lastAnggota = Anggota::latest()->first();
+        $nextNumber = $lastAnggota ? $lastAnggota->id + 1 : 1;
+        $nomorUrut = str_pad($nextNumber, 3, '0', STR_PAD_LEFT); // Hasil: 001, 002, dst
+
+        // 3. Gabungkan jadi satu format lengkap: 01/001/L
+        $no_anggota = "{$kodeDepan}/{$nomorUrut}/{$kodeBelakang}";
+
+        // 4. Simpan Database
+        Anggota::create([
+            'no_anggota' => $no_anggota,
+            'nama_anggota' => $request->nama_anggota,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'alamat_rumah' => $request->alamat_rumah,
+            'no_telepon' => $request->no_telepon,
+        ]);
+
+        // Anggota::create($data);
         return redirect()->route("anggota.index")->with('success', 'Data Anggota Berhasil Ditambah');
     }
-    
+
     // Mencari Data yang Mau Diubah(Update)
     public function ubah_anggota($id){
         $anggota = Anggota::findOrFail($id);

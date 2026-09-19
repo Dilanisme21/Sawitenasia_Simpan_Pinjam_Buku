@@ -7,14 +7,14 @@
             <h2 class="text-center mb-5">Registrasi Anggota Baru</h2>
             <form action="{{route('anggota.tambah_anggota')}}" method="POST">
                 @csrf 
-                <div class="row align-items-center mb-2">
+                <!-- <div class="row align-items-center mb-2">
                     <div class="col-4">
                         <label for="no_anggota">No. Anggota </label>
                     </div>
                     <div class="col-8 border-dark">
                         <input type="text" name="no_anggota" id="no_anggota" class="form-control mb-2" required>
                     </div>
-                </div>
+                </div> -->
                 <div class="row align-items-center mb-2">
                     <div class="col-4">
                         <label for="no_anggota">Nama </label>
