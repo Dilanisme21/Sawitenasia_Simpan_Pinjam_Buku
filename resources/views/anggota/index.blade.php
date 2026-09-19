@@ -43,7 +43,7 @@
                 <tbody class="table-secondary">
                     @foreach($anggotas as $index => $anggota)
                     <tr>
-                        <td>{{$anggotas->firstItem() + $index}}</td>
+                        <td>{{ $anggotas->firstItem() + $loop->index }}</td>
                         <td>{{$anggota->no_anggota}}</td>
                         <td>{{$anggota->nama_anggota}}</td>
                         <td>{{$anggota->jenis_kelamin}}</td>

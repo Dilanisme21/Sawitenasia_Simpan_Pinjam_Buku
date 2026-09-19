@@ -9,10 +9,31 @@ class DaftarBukuController extends Controller
 {
     //
     // Menampilkan Data(Read)
-    public function index(){
-        $daftar_bukus = Daftar_Buku::paginate(5);
+    public function index(Request $request){
+        // 1. Mulai Query
+        $query = Daftar_Buku::query();
+
+        // 2. Cari Cek Kata Kunci
+        // if ($request->has('search') && $request->search != ''){
+        //     $query->where('judul_buku', 'LIKE', "%" . $request->search . '%');
+        // }
+        if($request->has('search') && $request->search != ''){
+            $search = $request->search;
+
+            $query->where(function($q) use ($search){
+                $q->where('judul_buku', 'LIKE', '%' . $search . '%')
+                ->orWhere('genre', 'LIKE', '%' . $search . '%')
+                ->orWhere('penerbit', 'LIKE', '%' . $search . '%')
+                ->orWhere('pengarang', 'LIKE', '%' . $search . '%');
+            });
+        }
+
+        // 3. Pakai Paginate dan Tambah Appends agar kata kunci terbatas
+        $daftar_bukus = $query->paginate(5)->appends($request->all());
+
         return view('simpan_pinjam.index',compact('daftar_bukus'));
     }
+
     // Menampilkan Form Tambah(Create)
     public function create(){
         return view('simpan_pinjam.tambah_buku');
@@ -54,7 +75,8 @@ class DaftarBukuController extends Controller
             'jumlah_buku' => $request->jumlah_buku,
         ]);
         // Daftar_Buku::create($data);
-        return redirect()->route('simpan_pinjam.index');
+        // return redirect()->route('simpan_pinjam.index');
+        return redirect()->route("simpan_pinjam.index")->with('success', 'Data Anggota Berhasil Ditambah');
     }
 
     public function edit_buku($id){
@@ -75,13 +97,15 @@ class DaftarBukuController extends Controller
         $daftar_buku = Daftar_Buku::findOrFail($id);
         $daftar_buku->update($data_buku);
 
-        return redirect()->route('simpan_pinjam.index');
+        // return redirect()->route('simpan_pinjam.index');
+        return redirect()->route("simpan_pinjam.index")->with('success', 'Data Buku Berhasil Diupdate');
     }
 
     public function hapus_buku($id){
         $daftar_buku = Daftar_Buku::findOrFail($id);
         $daftar_buku->delete();
 
-        return redirect()->route('simpan_pinjam.index');
+        // return redirect()->route('simpan_pinjam.index');
+        return redirect()->route("simpan_pinjam.index")->with('success', 'Data Anggota Berhasil Dihapus');
     }
 }

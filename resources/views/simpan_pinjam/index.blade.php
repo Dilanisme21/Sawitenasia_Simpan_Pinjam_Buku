@@ -4,6 +4,29 @@
     <div class="container my-4">
         <div class="row align-items-center">
         <h2 class="mt-4 text-center fw-bold">Sistem Administrasi Simpan Pinjam Buku</h2>
+        
+        <!-- Form Search -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <form action="{{route('simpan_pinjam.index')}}" method="GET">
+                    <div class="input-group">
+                        <input type="text" name="search" class="form-control border-dark"
+                            placeholder="Ketik yang ingin dicari... " value="{{request('search')}}">
+                        <button class="btn btn-outline-dark" type="submit">Cari</button>
+                        <!-- Tombol Reset -->
+                         @if(request('search'))
+                            <a href="{{ route('simpan_pinjam.index') }}" class="btn btn-outline-danger">Reset</a>
+                         @endif 
+                    </div>
+                </form>
+                <!-- Pesan Indikator Pencarian -->
+                 @if(request('search'))
+                    <small class="text-muted mt-1 d-block">
+                        Menampilkan hasil pencarian untuk: <strong>{{request('search')}}</strong>
+                    </small>
+                 @endif 
+            </div>
+        </div>
             <table class="table-striped-columns text-center table table-bordered ">
                 <thead class="table-dark">
                     <tr>
@@ -21,7 +44,7 @@
                 <tbody class="table-secondary">
                     @foreach($daftar_bukus as $index => $daftar_buku)
                     <tr>
-                        <td>{{ $index + 1}}</td>
+                        <td>{{ $daftar_bukus->firstItem() + $loop->index }}</td>
                         <td>{{ $daftar_buku->no_registrasi_buku }}</td>
                         <td class="text-start fw-semibold">{{ $daftar_buku->judul_buku}}</td>
                         <td>{{$daftar_buku->pengarang}}</td>
@@ -75,9 +98,9 @@
         </div>
         <div class="d-flex justify-content-center mt-3">
             <div class="btn-group" role="group">
-                <a href="{{ route('simpan_pinjam.tambah_buku') }}" class="btn btn-primary">Tambah Data Buku Baru</a>
+                <a href="{{ route('simpan_pinjam.tambah_buku') }}" class="btn btn-primary">Tambah Buku Baru</a>
                 <button type="button" class="btn btn-danger">Peminjaman Buku</button>
-                <a href="{{ route('anggota.index') }}" class="btn btn-warning">Daftar Anggota</a>
+                <a href="{{ route('anggota.index') }}" class="btn btn-warning">Anggota</a>
                 <button type="button" class="btn btn-success">Informasi</button>
             </div>
         </div>
