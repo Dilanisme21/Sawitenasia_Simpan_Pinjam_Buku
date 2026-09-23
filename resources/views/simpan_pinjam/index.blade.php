@@ -99,7 +99,8 @@
         <div class="d-flex justify-content-center mt-3">
             <div class="btn-group" role="group">
                 <a href="{{ route('simpan_pinjam.tambah_buku') }}" class="btn btn-primary">Tambah Buku Baru</a>
-                <button type="button" class="btn btn-danger">Peminjaman Buku</button>
+                <a href="{{ route('peminjaman.index') }}" class="btn btn-danger">Peminjaman Buku</a>
+                <!-- <button type="button" class="btn btn-danger">Peminjaman Buku</button> -->
                 <a href="{{ route('anggota.index') }}" class="btn btn-warning">Anggota</a>
                 <button type="button" class="btn btn-success">Informasi</button>
             </div>

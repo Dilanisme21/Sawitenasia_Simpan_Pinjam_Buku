@@ -1,0 +1,28 @@
+Simple kok:
+- Pengerjaan sekitar 30-45 menit (kalau sudah lancar Laravel)
+- Hanya 1 modul
+- Tidak usah UI (tidak usah html, css, js)
+
+Brief:
+1. Buatlah project laravel baru.
+2. Buat tabel database untuk master data Kurir/Courier (model & migration).
+     Kolom bebas, coba pikirkan kolom apa saja yang cocok ditempatkan di tabel kurir / couriers.
+     Kurir memiliki Level 1-5
+3. Buatlah CRUD untuk data kurir (controller index,show,update,destroy)
+4. Untuk controller index:
+      - buat hasil memiliki pagination.
+      - hasil diurutkan berdasarkan nama kurir (default).
+      - opsi untuk frontend minta hasil diurutkan berdasarkan tanggal didaftarkan (override default sort).
+      - opsi untuk frontend mencari kurir (?search=budi+agung), bisa match dengan nama Budiono Hadi Agung.
+      - opsi untuk frontend minta hanya kurir yang memiliki level 2 atau 3 saja (?level=2,3).
+5. Untuk controller show, sekedar kembalikan semua data pada kurir.
+6. Untuk controller store & update, pastikan ada validasi input yang lengkap, dan test bahwa data telah disimpan ke database.
+7. Untuk controller destroy, sekedar hapus dan test bahwa data telah hilang dari database.
+8. Upload project ke Github dengan visibilitas public.
+9. Paste link repository pada kolom yang diminta di bawah.
+
+Penilaian:
+- Pemahaman akan brief dari tes.
+- Kerapian program yang ditulis.
+- Mengikuti standar dan best practices.
+- Dokumentasi & kelengkapan unit / feature test.
