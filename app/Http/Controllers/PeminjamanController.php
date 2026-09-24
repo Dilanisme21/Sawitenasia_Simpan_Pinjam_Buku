@@ -24,14 +24,15 @@ class PeminjamanController extends Controller
         ->join('daftar__bukus', 'peminjamen.buku_id', '=', 'daftar__bukus.id')
         // Pilih kolom yang mau dituju
         ->select(
+            'peminjamen.id as id', //Negesin ini ID
             'peminjamen.*',
             'anggotas.no_anggota',
             'anggotas.nama_anggota',
             'daftar__bukus.no_registrasi_buku',
             'daftar__bukus.judul_buku'
         )
-        ->orderBy('peminjamen.id', 'desc')
-        ->paginate(10);
+        ->orderBy('peminjamen.id', 'asc')
+        ->paginate(5);
 
         return view('peminjaman.index', compact('peminjaman'));
     }
@@ -60,12 +61,12 @@ class PeminjamanController extends Controller
         // 2.b. Cari buku berdasarkan ID dan Cek Stok
         $buku = Daftar_Buku::findOrFail($request->buku_id);
 
-        if($buku->jumlah_buku <1){
-            return redirect()->back()->with('Error', 'Stok buku Habis!');
+        if($buku->jumlah_buku < 1){
+            return redirect()->back()->with('error', 'Stok buku Habis!');
         }
 
         // 3.b. Simpan data transaksi Peminjaman Baru
-        Peminjaman::created([
+        Peminjaman::create([
             'anggota_id' => $request->anggota_id,
             'buku_id' => $request->buku_id,
             'tanggal_pinjam' => $request->tanggal_pinjam,
@@ -74,9 +75,44 @@ class PeminjamanController extends Controller
         ]);
 
         // 4.b. Otomatis kurangi stok buku
-        $buku->decreament('jumlah_buku');
+        $buku->decrement('jumlah_buku');
+        // $buku -> jumlah_buku = $buku->jumlah_buku - 1;
+        // $buku -> save
+        // $buku -> jumlah_buku -= 1;
+        // $buku -> save()
 
         // 5.b. Kembali ke tabel riwayat peminjaman
         return redirect()->route('peminjaman.index')->with('success', 'Transaksi Peminjaman Berhasil Dicatat!!');
+    }
+
+    // 4.b. Fitur Hapus(Delete)
+    public function hapus($id){
+        $peminjaman = Peminjaman::findOrFail($id);
+        $peminjaman->delete();
+
+        return redirect()->route('peminjaman.index')->with('success', 'Data Berhasil Dihapus');
+    }
+
+    // 5. Fitur Pengembalian Buku
+    public function Kembalikan($id){
+        // 5.a. Cari Data Transaksi Peminjaman
+        $peminjaman = Peminjaman::findOrFail($id);
+
+        // 5.b. Cek Agar Tidak Bisa Dikembalikan 2x
+        if($peminjaman->status == 'Dikembalikan'){
+            return redirect()->back()->with('error', 'Buku Ini Sudah Dikembalikan');
+        }
+
+        // 5.c. Ubah Status Pengembalian
+        $peminjaman->update([
+            'status' => 'Dikembalikan'
+        ]);
+
+        // 5.d. Tambah Kembali Stok Buku
+        $buku = Daftar_Buku::findOrFail($peminjaman->buku_id);
+        $buku->increment('jumlah_buku');
+
+        return redirect()->route('peminjaman.index')
+                ->with('success', 'Buku Berhasil Dikembalikan');
     }
 }

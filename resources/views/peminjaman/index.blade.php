@@ -10,8 +10,8 @@
             <thead class="table-info">
                 <tr>
                     <th scope="col" style="width: 1%;">No </th>
-                    <th scope="col" style="width: 10%;">Kode/Nama Anggota</th>
-                    <th scope="col" style="width: 10%;">Kode/Judul Buku</th>
+                    <th scope="col" style="width: 10%;">Kode-Nama Anggota</th>
+                    <th scope="col" style="width: 10%;">Kode-Judul Buku</th>
                     <th scope="col" style="width: 10%;">Tanggal Pinjam</th>
                     <th scope="col" style="width: 10%;">Tanggal Kembali</th>
                     <th scope="col" style="width: 8%;">Status</th>
@@ -24,11 +24,11 @@
                     <td>{{ $peminjaman->firstItem() + $loop->index }}</td>
                     <td>
                         <small class="text-muted">{{$p->no_anggota}}</small>
-                        <strong>{{$p->nama_anggota}}</strong>
+                        <strong>- {{$p->nama_anggota}}</strong>
                     </td>
                     <td>
                         <small class="text-muted">{{$p->no_registrasi_buku}}</small>
-                        <strong>{{$p->judul_buku}}</strong>
+                        <strong>- {{$p->judul_buku}}</strong>
                     </td>
                     <td>{{ date('d-m-Y', strtotime($p->tanggal_pinjam))}}</td>
                     <td>{{ date('d-m-Y', strtotime($p->tanggal_kembali))}}</td>
@@ -40,11 +40,20 @@
                         @endif
                     </td>
                     <td>
-                        <form action='#' method="#" onsubmit="return confirm('Yakin hapus data ini')">
-                            <!-- @csrf 
-                            @method('DELETE') -->
-                            <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
-                        </form>
+                        <div class="btn-group" role="group">
+                            @if($p->status == 'Dipinjam')
+                            <form action="{{ route('peminjaman.kembalikan', $p->id) }}" method="POST" onsubmit="return confirm('Yakin mau dikembalikan??')">
+                                @csrf 
+                                @method('PUT')
+                                <button type="submit" class="btn btn-success">Kembalikan</button>
+                            </form>
+                            @endif
+                            <form action="{{route('peminjaman.hapus', $p->id)}}" method="POST" onsubmit="return confirm('Yakin hapus data ini')">
+                                @csrf 
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Hapus</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
                 @empty

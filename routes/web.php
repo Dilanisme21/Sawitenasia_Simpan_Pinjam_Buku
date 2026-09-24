@@ -50,10 +50,16 @@ Route::delete('/anggota/{id}', [AnggotaController::class, 'hapus_anggota'])
 
 // Ini Fitur Peminjaman
 Route::get('/peminjaman', [PeminjamanController::class, 'index'])
-->name('peminjaman.index');
+->name('peminjaman.index'); // Index
 
 Route::get('/peminjaman/registrasi', [PeminjamanController::class, 'form_create'])
-->name('peminjaman.registrasi');
+->name('peminjaman.registrasi'); // Menampilkan Form Tambah
 
-Route::post('/peminjaman', [PeminjamanController::class], 'penyimpanan')
-->name('peminjaman.simpan');
+Route::post('/peminjaman', [PeminjamanController::class, 'penyimpanan'])
+->name('peminjaman.simpan'); // Menyimpan Data(Create)
+
+Route::delete('/peminjaman/{id}', [PeminjamanController::class, 'hapus'])
+->name('peminjaman.hapus'); // Menghapus Data(Delete)
+
+Route::put('/peminjaman/{id}/Kembalikan', [PeminjamanController::class, 'Kembalikan'])
+->name('peminjaman.kembalikan'); // Route untuk mengembalikan buku
