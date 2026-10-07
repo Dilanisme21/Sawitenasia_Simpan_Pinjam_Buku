@@ -41,44 +41,45 @@
                     </tr>
                 </thead>
                 <tbody class="table-secondary">
-                    @if($anggotas->isEmpty())
+                    @if($anggota->isEmpty())
                         <tr>
                             <td colspan="7" class="text-center text-muted">Belum Ada Anggota yang Terdaftar!!</td>
                         </tr>
                     @else
-                        @foreach($anggotas as $index => $anggota)
+                        @foreach($anggota as $index => $anggotas)
                         <tr>
-                            <td>{{ $anggotas->firstItem() + $loop->index }}</td>
-                            <td>{{$anggota->no_anggota}}</td>
-                            <td>{{$anggota->nama_anggota}}</td>
-                            <td>{{$anggota->jenis_kelamin}}</td>
-                            <td>{{$anggota->alamat_rumah}}</td>
-                            <td>{{$anggota->no_telepon}}</td>
+                            <td>{{ $anggota->firstItem() + $loop->index }}</td>
+                            <td>{{$anggotas->no_anggota}}</td>
+                            <td>{{$anggotas->nama_anggota}}</td>
+                            <td>{{$anggotas->jenis_kelamin}}</td>
+                            <td>{{$anggotas->alamat_rumah}}</td>
+                            <td>{{$anggotas->no_telepon}}</td>
                             <td>
                                 <div class="btn-group" role="group">
-                                    <a href="{{ route('anggota.ubah_anggota', $anggota->id) }}" class="btn btn-info">Edit</a>
-                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{$anggota->id}}">
+                                    <a href="{{ route('anggota.ubah_anggota', $anggotas->id) }}" class="btn btn-info">Edit</a>
+                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{$anggotas->id}}">
                                         Delete
                                     </button>
+                                    <a href="{{ route('anggota.historis_peminjaman', $anggotas->id) }}" class="btn btn-success">Historis</a>
                                 </div>
                             </td>
                         </tr>
 
-                        <div class="modal fade" id="deleteModal{{$anggota->id}}" tabindex="-1" aria-labelledby="deleteModalLabel{{$anggota->id}}" aria-hidden="true">
+                        <div class="modal fade" id="deleteModal{{$anggotas->id}}" tabindex="-1" aria-labelledby="deleteModalLabel{{$anggotas->id}}" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header bg-danger text-white">
-                                        <h5 class="modal-title" id="deleteModalLabel{{$anggota->id}}">Konfirmasi Hapus Data</h5>
+                                        <h5 class="modal-title" id="deleteModalLabel{{$anggotas->id}}">Konfirmasi Hapus Data</h5>
                                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body text-start">
-                                        Apakah kamu yakin ingin menghapus data anggota <strong>{{$anggota->nama_anggota}}</strong> dengan nomor (No: {{ $anggota->no_anggota }})?
+                                        Apakah kamu yakin ingin menghapus data anggota <strong>{{$anggotas->nama_anggota}}</strong> dengan nomor (No: {{ $anggotas->no_anggota }})?
                                         <br>
                                         <small class="text-muted">*Data yang dihapus tidak dapat dikembalikan lagi</small>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                        <form action="{{ route('anggota.hapus_anggota', $anggota->id) }}" method="POST" class="d-inline">
+                                        <form action="{{ route('anggota.hapus_anggota', $anggotas->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Ya, Hapus Data</button>
@@ -92,7 +93,7 @@
                 </tbody>
             </table>
         <div class="d-flex justify-content-center mt-3">
-            {{ $anggotas->links() }}
+            {{ $anggota->links() }}
         </div>
 
     </div>

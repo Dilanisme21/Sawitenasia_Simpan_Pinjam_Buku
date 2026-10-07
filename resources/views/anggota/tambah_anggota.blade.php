@@ -56,7 +56,7 @@
                 </div>
                 <div class="d-flex justify-content-center mt-3">
                     <div class="btn-group" role="group">
-                        <button type="submit" class="btn btn-primary mt-3">Simpan Data Buku</button>
+                        <button type="submit" class="btn btn-primary mt-3">Simpan</button>
                         <a href="{{route('anggota.index')}}" class="btn btn-secondary mt-3">Kembali</a>
                     </div>
                 </div>         

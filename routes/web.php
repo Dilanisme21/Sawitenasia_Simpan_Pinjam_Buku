@@ -63,3 +63,6 @@ Route::delete('/peminjaman/{id}', [PeminjamanController::class, 'hapus'])
 
 Route::put('/peminjaman/{id}/Kembalikan', [PeminjamanController::class, 'Kembalikan'])
 ->name('peminjaman.kembalikan'); // Route untuk mengembalikan buku
+
+Route::get('/anggota/{id}/historis', [AnggotaController::class, 'historis_peminjaman'])
+->name('anggota.historis_peminjaman'); // Route untuk menampilkan historis
